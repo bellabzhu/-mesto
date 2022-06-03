@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./pages/index.css">
+  <title>Проект "mesto"</title>
+</head>
+
+<body class="page">
+  <div class="page-container">
+
+    <header class="header">
+      <a class="header__logo" href="#"></a>
+    </header>
+
+    <main class="main">
+
+      <section class="profile">
+        <img src="./images/avatar.jpg" alt="Аватар пользователя" class="profile__avatar">
+        <div class="profile__name-container">  
+          <h1 class="profile__name">Жак-Ив Кусто</h1>
+          <button class="button profile__button-edit" type="button" aria-label="Редактировать"></button>
+        </div>
+        <p class="profile__job">Исследователь гор Адыгеи</p>
+        <button class="button button-add" type="button" aria-label="Добавить пост"></button>
+      </section>
+
+      <section class="posts" aria-label="Посты">
+        <ul class="posts__list">
+        </ul>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p class="footer__copyright">&copy; 2022 Mesto Russia</p>
+    </footer>
+
+  </div>
+
+<!-- Окно popup редактировать имя -->
+  <div class="popup popup_type_edit-name">
+    <div class="popup__container">
+      <button class="button button-close" type="button" aria-label="Закрыть"></button>
+      <h2 class="popup__title">Редактировать&nbsp;профиль</h2>
+      <form class="popup__form popup__form_type_editname" name="changeNameJob">
+        <input class="popup__input popup__input_value_name" type="text" placeholder="Ваше имя" name="nameInput" required value="Имя" maxlength="32">
+        <input class="popup__input popup__input_value_job" placeholder="Чем занимаетесь?" name="jobInput" required value="Работа" maxlength="32">
+        <button type="submit" class="button button-submit">Сохранить</button>
+      </form>
+    </div>
+  </div>
+
+<!-- Окно popup добавить карточку -->
+<div class="popup popup_type_add-card">
+  <div class="popup__container">
+    <button class="button button-close" type="button" aria-label="Закрыть"></button>
+    <h2 class="popup__title">Новое&nbsp;место</h2>
+    <form class="popup__form popup__form_type_addcard" name="addCard">
+      <input class="popup__input popup__input_value_cardname" type="text" placeholder="Название" name="nameInput" required value="Название" maxlength="32">
+      <input class="popup__input popup__input_value_cardlink" placeholder="Ссылка на картинку" name="jobInput" required value="Ссылка">
+      <button type="submit" class="button button-submit">Создать</button>
+    </form>
+  </div>
+</div>
+
+<!-- Окно popup увеличенная картинка -->
+<div class="popup popup_type_image-zoomed">
+  <div class="popup__zoom-container">
+    <button class="button button-close" type="button" aria-label="Закрыть"></button>
+    <figure class="popup__zoom-container">
+      <img src="#" class="popup__image-zoomed" alt="alt">
+      <figcaption class="popup__zoom-caption"></figcaption>
+    </figure>
+  </div>
+</div>
+
+  <!-- Template для добавления карточки -->
+  <template class="card-template">
+    <li class="card">
+      <button class="button button-delete" aria-label="Удалить" type="button"></button>
+      <img class="card__image">
+      <div class="card__container">
+        <h2 class="card__title"></h2>
+        <button class="button button-like" aria-label="Нравится" type="button"></button>
+      </div>
+    </li>
+  </template>
+
+  <script src="./scripts/index.js"></script>
+</body>
+</html>
