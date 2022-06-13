@@ -29,6 +29,7 @@ const checkInputValidity = (formElement, inputElement) => {
 // Функция проверяет валидна ли форма (все инпуты в ней). Возвращаем тру или фолс
 const isFormValid = inputList => {
   return inputList.every((inputElement) => {
+    if (inputElement.validity.valueMissing) {}
     return inputElement.validity.valid;
   });
 };

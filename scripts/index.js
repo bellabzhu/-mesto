@@ -155,11 +155,17 @@ formElementCard.addEventListener('submit', handleFormCardSubmit);// Слушат
 editButton.addEventListener('click', openPopupEditName);// Слушатель: кнопка редактирования профиля
 addButton.addEventListener('click', openPopupCard);// Слушатель: кнопка с плюсом в профиле
 
-// Слушатель для кнопок крестика в попапах:
 popups.forEach((popup) => {
+  // Слушатель для кнопок крестика в попапах:
   popup.addEventListener('click', (evt) => {
     if (evt.target.classList.contains('button-close')) {
       closePopup(popup);
     }
   });
+  // Слушатель для кнопки Escape в попапах:
+  document.addEventListener('keydown', (evt) => {
+    if (evt.key === 'Escape') {
+      closePopup(popup);
+    }
+  })
 });
