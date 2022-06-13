@@ -82,11 +82,13 @@ renderList(initialCards);
 
 // Функция открытия попапа:
 function openPopup(popup) {
+  document.addEventListener('keydown', escapeClosingPopup);
   popup.classList.add('popup_opened');
 }
 
 // Функция закрытия попапа:
 function closePopup(popup) {
+  document.removeEventListener('keydown', escapeClosingPopup);
   popup.classList.remove('popup_opened');
 }
 
@@ -155,6 +157,14 @@ formElementCard.addEventListener('submit', handleFormCardSubmit);// Слушат
 editButton.addEventListener('click', openPopupEditName);// Слушатель: кнопка редактирования профиля
 addButton.addEventListener('click', openPopupCard);// Слушатель: кнопка с плюсом в профиле
 
+function escapeClosingPopup (evt) {
+  if (evt.key === 'Escape') {
+    popups.forEach((popup) => {
+      closePopup(popup)
+    })
+  }
+}
+
 popups.forEach((popup) => {
   // Слушатель закрытие попапа по крестику или клике вне попапа
   popup.addEventListener('click', (evt) => {
@@ -163,10 +173,4 @@ popups.forEach((popup) => {
       closePopup(popup);
     }
   });
-  // Слушатель закрытие попапа по кнопке escape
-  document.addEventListener('keydown', (evt) => {
-    if (evt.key === 'Escape' && popup.classList.contains('popup_opened')) {
-      closePopup(popup);
-    }
-  })
 });
