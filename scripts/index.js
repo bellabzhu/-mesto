@@ -38,8 +38,8 @@ const formElementCard = popupCard.querySelector('.popup__form_type_addcard');
 // Инпуты в попапах:
 const nameInput = formElementName.elements.name;//поле ввод имя
 const jobInput = formElementName.elements.job; //поле ввод работа
-const cardNameInput = formElementCard.elements.placeName;//поле ввод места
-const cardLinkInput = formElementCard.elements.placeLink;//поле ввод ссылка
+const cardNameInput = formElementCard.elements.placeNameInput;//поле ввод места
+const cardLinkInput = formElementCard.elements.placeLinkInput;//поле ввод ссылка
 // То, куда вставляем данные в html:
 const profile = document.querySelector('.profile');
 const profileName = profile.querySelector('.profile__name');
@@ -96,8 +96,8 @@ function closePopup(popup) {
 function openPopupEditName () {
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
+  resetValidation(formElementName);
   enableValidation(config);
-  resetValidation(formElementCard);
   openPopup(popupName);
 };
 

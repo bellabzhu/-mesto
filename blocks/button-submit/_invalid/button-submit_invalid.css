@@ -3,4 +3,9 @@
   border: 1px solid black;
   color: black;
   opacity: 0.2;
+  cursor: not-allowed;
+}
+
+.button-submit_invalid:hover {
+  opacity: 0.2;
 }
