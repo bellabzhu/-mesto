@@ -1,17 +1,15 @@
 // Функция показать ошибку при вводе
-const showInputError = (formElement, inputElement, errorMessage) => {
-  // Находим span ошибки в ДАННОЙ форме
+const showInputError = (formElement, inputElement, errorMessage) => {  // Находим span ошибки в ДАННОЙ форме
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  inputElement.classList.add('popup__input_type_error');// добавляем красную рамку инпуту
+  inputElement.classList.add(config.inputErrorClass);// добавляем красную рамку инпуту
   errorElement.textContent = errorMessage;// в span выводим сообщение об ошибке
   errorElement.style.opacity = 1;// делаем span видимым
 };
 
 // Функция убрать ошибку при вводе
 const hideInputError = (formElement, inputElement) => {
-  // находим span ошибки в ДАННОЙ форме
-  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  inputElement.classList.remove('popup__input_type_error');// убираем красную рамку инпуту
+  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);  // находим span ошибки в ДАННОЙ форме
+  inputElement.classList.remove(config.inputErrorClass);// убираем красную рамку инпуту
   errorElement.style.opacity = 0;// делаем невидимым span с ошибкой
   errorElement.textContent = '';// очищаем текст span ошибки 
 };
@@ -33,15 +31,15 @@ const isFormValid = inputList => {
   });
 };
 
-// Функция меняет состояние кнопки active/disabled
+// Функция меняет состояние кнопки submit
 const toggleButtonState = (inputList, buttonElement) => {
   if (!isFormValid(inputList)) {
     console.log('форма ни черта не валидна')
-    buttonElement.classList.add('button-submit_invalid');
+    buttonElement.classList.add(config.inactiveButtonClass);
     buttonElement.setAttribute('disabled', true);
   } else {
     console.log('форма валидна')
-    buttonElement.classList.remove('button-submit_invalid');
+    buttonElement.classList.remove(config.inactiveButtonClass);
     buttonElement.removeAttribute('disabled', true);
   };
 };
@@ -49,8 +47,9 @@ const toggleButtonState = (inputList, buttonElement) => {
 // Функция навешивает слушатели каждому инпуту
 const setEventListeners = (formElement) => {
   // делаем массив из всех инпутов в ДАННОЙ форме, находим кнопку в этой форме
-  const inputList = Array.from(formElement.querySelectorAll('.popup__input'));
-  const buttonElement = formElement.querySelector('.button-submit');
+  const inputList = Array.from(formElement.querySelectorAll(config.inputSelector));
+  const buttonElement = formElement.querySelector(config.submitButtonSelector)
+  console.log(buttonElement)
   console.log(inputList)
   toggleButtonState(inputList, buttonElement);
   
@@ -74,5 +73,12 @@ const enableValidation = () => {
   });
 };
 
-// Включаем валидацию документа
-enableValidation();
+const config = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.button-submit',
+  inactiveButtonClass: 'button-submit_invalid',
+  inputErrorClass: 'popup__input_type_error',
+};
+
+enableValidation(config);
