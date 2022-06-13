@@ -32,14 +32,14 @@ const popups = document.querySelectorAll('.popup')
 const popupName = document.querySelector('.popup_type_edit-name');
 const popupCard = document.querySelector('.popup_type_add-card');
 const popupImg = document.querySelector('.popup_type_image-zoomed');
-// Инпуты в попапах:
-const nameInput = popupName.querySelector('.popup__input_value_name');//поле ввод имя
-const jobInput = popupName.querySelector('.popup__input_value_job');//поле ввод работа
-const cardNameInput = popupCard.querySelector('.popup__input_value_cardname');//поле ввод места
-const cardLinkInput = popupCard.querySelector('.popup__input_value_cardlink');//поле ввод ссылка
 // Формы для event слушателя:
 const formElementName = popupName.querySelector('.popup__form_type_editname'); 
 const formElementCard = popupCard.querySelector('.popup__form_type_addcard');
+// Инпуты в попапах:
+const nameInput = formElementName.elements.name;//поле ввод имя
+const jobInput = formElementName.elements.job; //поле ввод работа
+const cardNameInput = formElementCard.elements.placeName;//поле ввод места
+const cardLinkInput = formElementCard.elements.placeLink;//поле ввод ссылка
 // То, куда вставляем данные в html:
 const profile = document.querySelector('.profile');
 const profileName = profile.querySelector('.profile__name');
@@ -108,8 +108,7 @@ function openPopupImg (evt) {
 
 // Функция открытия попапа добавление карточки
 function openPopupCard () {
-  cardNameInput.value = null;// очищаем поля ввода при открытии попапа
-  cardLinkInput.value = null;// очищаем поля ввода при открытии попапа
+  formElementCard.reset();
   openPopup(popupCard);
 };
 

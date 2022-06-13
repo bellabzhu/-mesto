@@ -2,13 +2,14 @@
   display: block;
   width: 100%;
   height: 50px;
-  background-color: black;
-  color: white;
   border-radius: 2px;
   font-family: inherit;
   font-size: 18px;
   line-height: 22px;
   font-weight: 400;
+  background-color: black;
+  color: white;
+  opacity: 1;
 }
 
 .button-submit:hover {
