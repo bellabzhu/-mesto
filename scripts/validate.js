@@ -26,7 +26,6 @@ const checkInputValidity = (formElement, inputElement) => {
 // Функция проверяет валидна ли форма (все инпуты в ней). Возвращаем тру или фолс
 const isFormValid = inputList => {
   return inputList.every((inputElement) => {
-    if (inputElement.validity.valueMissing) {}
     return inputElement.validity.valid;
   });
 };
@@ -49,29 +48,35 @@ const setEventListeners = (formElement) => {
   // делаем массив из всех инпутов в ДАННОЙ форме, находим кнопку в этой форме
   const inputList = Array.from(formElement.querySelectorAll(config.inputSelector));
   const buttonElement = formElement.querySelector(config.submitButtonSelector)
-  console.log(buttonElement)
-  console.log(inputList)
   toggleButtonState(inputList, buttonElement);
   
   // Каждому инпуту ставим слушатель ввода
-  inputList.forEach((inputElement) => {
-    inputElement.addEventListener('input', function () {
-      checkInputValidity(formElement, inputElement);//показывать или убирать ошибку
-      toggleButtonState(inputList, buttonElement);//менять статус кнопки
+inputList.forEach((inputElement) => {
+  inputElement.addEventListener('input', function () {
+    checkInputValidity(formElement, inputElement);// показывать или убирать ошибку
+    toggleButtonState(inputList, buttonElement);// менять статус кнопки
     });
   });
 };
 
 // Функция включение валидации. Для валидации нужно вызвать только ее
 const enableValidation = () => {
-  const formList = Array.from(document.forms); //массив из всех форм документа
-  formList.forEach((formElement) => {//для каждой формы:
+  const formList = Array.from(document.forms);// массив из всех форм документа
+  formList.forEach((formElement) => {// для каждой формы:
     formElement.addEventListener('submit', function (evt) {
       evt.preventDefault();
     });
     setEventListeners(formElement);
   });
 };
+
+// Сброс показа всех ошибок валидации
+const resetValidation = (formElement) => {
+  const inputList = Array.from(formElement.querySelectorAll(config.inputSelector));
+  inputList.forEach((inputElement) => {
+    hideInputError(formElement, inputElement);
+  })
+}
 
 const config = {
   formSelector: '.popup__form',

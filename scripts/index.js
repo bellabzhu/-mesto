@@ -96,6 +96,8 @@ function closePopup(popup) {
 function openPopupEditName () {
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
+  enableValidation(config);
+  resetValidation(formElementCard);
   openPopup(popupName);
 };
 
@@ -111,6 +113,7 @@ function openPopupImg (evt) {
 // Функция открытия попапа добавление карточки
 function openPopupCard () {
   formElementCard.reset();
+  resetValidation(formElementCard);
   openPopup(popupCard);
 };
 
