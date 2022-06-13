@@ -151,20 +151,21 @@ function likeUnlike(evt) {
 
 // Cлушатели:
 formElementName.addEventListener('submit', handleFormNameSubmit);// Слушатель: редактирование имени
-formElementCard.addEventListener('submit', handleFormCardSubmit);// Слушатель: добалвление карточки
+formElementCard.addEventListener('submit', handleFormCardSubmit);// Слушатель: добавление карточки
 editButton.addEventListener('click', openPopupEditName);// Слушатель: кнопка редактирования профиля
 addButton.addEventListener('click', openPopupCard);// Слушатель: кнопка с плюсом в профиле
 
 popups.forEach((popup) => {
-  // Слушатель для кнопок крестика в попапах:
+  // Слушатель закрытие попапа по крестику или клике вне попапа
   popup.addEventListener('click', (evt) => {
-    if (evt.target.classList.contains('button-close')) {
+    const popupContainer = popup.querySelector('.popup__container')
+    if (evt.target.classList.contains('button-close') || !popupContainer.contains(evt.target)) {
       closePopup(popup);
     }
   });
-  // Слушатель для кнопки Escape в попапах:
+  // Слушатель закрытие попапа по кнопке escape
   document.addEventListener('keydown', (evt) => {
-    if (evt.key === 'Escape') {
+    if (evt.key === 'Escape' && popup.classList.contains('popup_opened')) {
       closePopup(popup);
     }
   })

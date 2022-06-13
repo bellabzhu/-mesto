@@ -1,32 +1,78 @@
-//обращаемся к форме по имени
-document.forms.form_name
-document.forms.form_card
+// Функция показать ошибку при вводе
+const showInputError = (formElement, inputElement, errorMessage) => {
+  // Находим span ошибки в ДАННОЙ форме
+  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+  inputElement.classList.add('popup__input_type_error');// добавляем красную рамку инпуту
+  errorElement.textContent = errorMessage;// в span выводим сообщение об ошибке
+  errorElement.style.opacity = 1;// делаем span видимым
+};
 
-//все формы на странице
-const forms = Array.from(document.forms);
+// Функция убрать ошибку при вводе
+const hideInputError = (formElement, inputElement) => {
+  // находим span ошибки в ДАННОЙ форме
+  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+  inputElement.classList.remove('popup__input_type_error');// убираем красную рамку инпуту
+  errorElement.style.opacity = 0;// делаем невидимым span с ошибкой
+  errorElement.textContent = '';// очищаем текст span ошибки 
+};
 
-//элементы формы
-document.forms.form_name.elements;// элементы формы form_name
+// Функция - если невалидно, вызываем показ ошибки, если валидно, убираем ее
+const checkInputValidity = (formElement, inputElement) => {
+  if (!inputElement.validity.valid) {
+    showInputError(formElement, inputElement, inputElement.validationMessage);
+  } else {
+    hideInputError(formElement, inputElement);
+  }
+};
 
-// в форме1 элемент-инпут с именем яндекс:
-form1.elements.yandex;// <input type="text" name="yandex" ...
+// Функция проверяет валидна ли форма (все инпуты в ней). Возвращаем тру или фолс
+const isFormValid = inputList => {
+  return inputList.every((inputElement) => {
+    if (inputElement.validity.valueMissing) {}
+    return inputElement.validity.valid;
+  });
+};
 
-//При необходимости в обработчике события submit проверяют данные, которые ввёл пользователь, и отменяют их отправку на сервер
+// Функция меняет состояние кнопки active/disabled
+const toggleButtonState = (inputList, buttonElement) => {
+  if (!isFormValid(inputList)) {
+    console.log('форма ни черта не валидна')
+    buttonElement.classList.add('button-submit_invalid');
+    buttonElement.setAttribute('disabled', true);
+  } else {
+    console.log('форма валидна')
+    buttonElement.classList.remove('button-submit_invalid');
+    buttonElement.removeAttribute('disabled', true);
+  };
+};
 
-// МОЙ ПЛАН. Я хочу, чтобы:
-// + выполнялась браузерная валидация по длине символов и типу данных
-// - в джээс мы использовали validity, если оно true, то показываем hideError, если false, то showError 
-// - вместо браузерных ошибок выводились мои (текст)
-// - при ошибке поле инпута становилось красным и убиралось когда ошибки необходимости
-// - кнопка самбит становилась неактивной когда невалидно и при открытии попапа изначально
-// - была создана функция toogleButtonState которая меняет активность кнопки (если валидно, что становится дисаблед, если валидно, то убираем атрибут дисаблед и класс неактивной кнопки)
+// Функция навешивает слушатели каждому инпуту
+const setEventListeners = (formElement) => {
+  // делаем массив из всех инпутов в ДАННОЙ форме, находим кнопку в этой форме
+  const inputList = Array.from(formElement.querySelectorAll('.popup__input'));
+  const buttonElement = formElement.querySelector('.button-submit');
+  console.log(inputList)
+  toggleButtonState(inputList, buttonElement);
+  
+  // Каждому инпуту ставим слушатель ввода
+  inputList.forEach((inputElement) => {
+    inputElement.addEventListener('input', function () {
+      checkInputValidity(formElement, inputElement);//показывать или убирать ошибку
+      toggleButtonState(inputList, buttonElement);//менять статус кнопки
+    });
+  });
+};
 
-//Тут условие прописывается, но у нас есть функция validity, чтобы не прописывать тоже самое что в хтмл
-form.addEventListener('input', function(evt) {
-  const isValid = artist.value.length > 0 && title.value.length > 0
-});
+// Функция включение валидации. Для валидации нужно вызвать только ее
+const enableValidation = () => {
+  const formList = Array.from(document.forms); //массив из всех форм документа
+  formList.forEach((formElement) => {//для каждой формы:
+    formElement.addEventListener('submit', function (evt) {
+      evt.preventDefault();
+    });
+    setEventListeners(formElement);
+  });
+};
 
-// Вот оно! валидэйшн мэсседж это метод, не надо самому прописывать месседжи
-inputElement.validationMessage
-
-// Меняем красную рамку при инвилиде. Для проверки убираем временно novalidate у формы 
+// Включаем валидацию документа
+enableValidation();

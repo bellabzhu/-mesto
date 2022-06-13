@@ -1,4 +1,3 @@
-
 // Функция показать ошибку при вводе
 const showInputError = (formElement, inputElement, errorMessage) => {
   // Находим span ошибки в ДАННОЙ форме
@@ -77,12 +76,3 @@ const enableValidation = () => {
 
 // Включаем валидацию документа
 enableValidation();
-
-// enableValidation({
-//   formSelector: '.popup__form',
-//   inputSelector: '.popup__input',
-//   submitButtonSelector: '.button-submit',
-//   inactiveButtonClass: 'button-submit_invalid',
-//   inputErrorClass: 'popup__input_type_error',
-//   errorClass: 'popup__input-error_active'
-// }); 
