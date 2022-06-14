@@ -41,14 +41,14 @@
 
 <!-- Окно popup редактировать имя -->
   <div class="popup popup_type_edit-name">
-    <div class="popup__container">
+    <div class="popup__container popup__container-area">
       <button class="button button-close" type="button" aria-label="Закрыть"></button>
       <h2 class="popup__title">Редактировать&nbsp;профиль</h2>
       <form class="popup__form popup__form_type_editname" name="form_name" novalidate>
-        <input class="popup__input popup__input_value_name" type="text" placeholder="Ваше имя" name="name" required minlength="2" maxlength="40" id="nameInput">
-        <span class="popup__input-error nameInput-error"></span>
-        <input class="popup__input popup__input_value_job" type="text" placeholder="Чем занимаетесь?" name="job" required maxlength="200" minlength="2" id="jobInput">
-        <span class="popup__input-error jobInput-error"></span>
+        <input class="popup__input popup__input_value_name" type="text" placeholder="Ваше имя" name="name" required minlength="2" maxlength="40" id="name">
+        <span class="popup__input-error popup__input-name-error"></span>
+        <input class="popup__input popup__input_value_job" type="text" placeholder="Чем занимаетесь?" name="job" required maxlength="200" minlength="2" id="job">
+        <span class="popup__input-error popup__input-job-error"></span>
         <button type="submit" class="button button-submit">Сохранить</button>
       </form>
     </div>
@@ -56,14 +56,14 @@
 
 <!-- Окно popup добавить карточку -->
 <div class="popup popup_type_add-card">
-  <div class="popup__container">
+  <div class="popup__container popup__container-area">
     <button class="button button-close" type="button" aria-label="Закрыть"></button>
     <h2 class="popup__title">Новое&nbsp;место</h2>
     <form class="popup__form popup__form_type_addcard" name="form_card" novalidate>
-      <input class="popup__input popup__input_value_cardname" id="placeNameInput" type="text" placeholder="Название" name="placeNameInput" required maxlength="30" minlength="2">
-      <span class="placeNameInput-error popup__input-error"></span>
-      <input class="popup__input popup__input_value_cardlink" type="url" id="placeLinkInput" placeholder="Ссылка на картинку" name="placeLinkInput" required>
-      <span class="placeLinkInput-error popup__input-error"></span>
+      <input class="popup__input popup__input_value_cardname" id="placename" type="text" placeholder="Название" name="placeNameInput" required maxlength="30" minlength="2">
+      <span class="popup__input-error popup__input-placename-error"></span>
+      <input class="popup__input popup__input_value_cardlink" type="url" id="placelink" placeholder="Ссылка на картинку" name="placeLinkInput" required>
+      <span class="popup__input-error popup__input-placelink-error"></span>
       <button type="submit" class="button button-submit">Создать</button>
     </form>
   </div>
@@ -71,7 +71,7 @@
 
 <!-- Окно popup увеличенная картинка -->
 <div class="popup popup_type_image-zoomed">
-  <div class="popup__zoom-container">
+  <div class="popup__zoom-container popup__container-area">
     <button class="button button-close" type="button" aria-label="Закрыть"></button>
     <figure class="popup__zoom-container">
       <img src="#" class="popup__image-zoomed" alt="alt">

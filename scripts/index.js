@@ -114,6 +114,7 @@ function openPopupImg (evt) {
 function openPopupCard () {
   formElementCard.reset();
   resetValidation(formElementCard);
+  enableValidation(config);
   openPopup(popupCard);
 };
 
@@ -171,8 +172,8 @@ function escapeClosingPopup (evt) {
 popups.forEach((popup) => {
   // Слушатель закрытие попапа по крестику или клике вне попапа
   popup.addEventListener('click', (evt) => {
-    const popupContainer = popup.querySelector('.popup__container')
-    if (evt.target.classList.contains('button-close') || !popupContainer.contains(evt.target)) {
+    const popupArea = popup.querySelector('.popup__container-area')
+    if (evt.target.classList.contains('button-close') || !popupArea.contains(evt.target)) {
       closePopup(popup);
     }
   });

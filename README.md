@@ -18,5 +18,5 @@
  * template-теги;
  * адаптивность
 ___
-Сайт доступен на [GitHub Pages](https://bellabzhu.github.io/mesto). 
+Сайт доступен на [GitHub Pages](https://bellabzhu.github.io/-mesto). 
 
