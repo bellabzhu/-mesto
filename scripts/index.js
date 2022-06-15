@@ -62,12 +62,11 @@ function renderList(data) {
 function createCard(name, link) {
   const listElement = cardTemplate.cloneNode(true);// элемент карточки пустой
   const cardName = listElement.querySelector('.card__title');//title карточки в html
-  const cardLink = listElement.querySelector('.card__image');//ссылка в html
-  const cardImageAlt = listElement.querySelector('.card__image');//альт в html
+  const cardImage = listElement.querySelector('.card__image');//картинку в html
   // наполняем карточку данными:
   cardName.textContent = name;
-  cardLink.src = link;
-  cardImageAlt.alt = name;
+  cardImage.src = link;
+  cardImage.alt = name;
   subscribeToEvents(listElement);
   return listElement;// возвращает карточку со всеми данными
 };
@@ -82,13 +81,13 @@ renderList(initialCards);
 
 // Функция открытия попапа:
 function openPopup(popup) {
-  document.addEventListener('keydown', escapeClosingPopup);
+  document.addEventListener('keydown', handleEscapePopup);
   popup.classList.add('popup_opened');
 }
 
 // Функция закрытия попапа:
 function closePopup(popup) {
-  document.removeEventListener('keydown', escapeClosingPopup);
+  document.removeEventListener('keydown', handleEscapePopup);
   popup.classList.remove('popup_opened');
 }
 
@@ -97,7 +96,6 @@ function openPopupEditName () {
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
   resetValidation(formElementName, config);
-  enableValidation(config);
   openPopup(popupName);
 };
 
@@ -114,14 +112,13 @@ function openPopupImg (evt) {
 function openPopupCard () {
   formElementCard.reset();
   resetValidation(formElementCard, config);
-  enableValidation(config);
   openPopup(popupCard);
 };
 
 // Функция навешивает слушателей на элементы/кнопки внутри карточки:
 function subscribeToEvents(listElement) {
   const likeButton = listElement.querySelector('.button-like');
-  likeButton.addEventListener('click', likeUnlike);
+  likeButton.addEventListener('click', toggleLike);
   const deleteButton = listElement.querySelector('.button-delete');
   deleteButton.addEventListener('click', deleteCard);
   const image = listElement.querySelector('.card__image');
@@ -151,7 +148,7 @@ function deleteCard (evt) {
 };
 
 // Функция поставить/убрать лайк:
-function likeUnlike(evt) {
+function toggleLike(evt) {
   evt.target.classList.toggle('button-like_pressed');
 };
 
@@ -161,13 +158,13 @@ formElementCard.addEventListener('submit', handleFormCardSubmit);// Слушат
 editButton.addEventListener('click', openPopupEditName);// Слушатель: кнопка редактирования профиля
 addButton.addEventListener('click', openPopupCard);// Слушатель: кнопка с плюсом в профиле
 
-function escapeClosingPopup (evt) {
+// Функция закрывает попап по нажатию на escape
+function handleEscapePopup (evt) {
   if (evt.key === 'Escape') {
-    popups.forEach((popup) => {
-      closePopup(popup)
-    })
+    const openedPopup = document.querySelector('.popup_opened');
+    closePopup(openedPopup);
   }
-}
+};
 
 popups.forEach((popup) => {
   // Слушатель закрытие попапа по крестику или клике вне попапа
@@ -176,5 +173,5 @@ popups.forEach((popup) => {
     if (evt.target.classList.contains('button-close') || !popupArea.contains(evt.target)) {
       closePopup(popup);
     }
-  });
+  })
 });

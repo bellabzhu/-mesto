@@ -61,6 +61,15 @@ const setEventListeners = (formElement, config) => {
   });
 };
 
+// Сброс показа всех ошибок валидации
+const resetValidation = (formElement, config) => {
+  const inputList = Array.from(formElement.querySelectorAll(config.inputSelector));
+  disableSubmitButton(formElement.querySelector(config.submitButtonSelector), config);
+  inputList.forEach((inputElement) => {
+    hideInputError(formElement, inputElement, config);
+  })
+}
+
 // Функция включение валидации. Для валидации всего нужно вызвать только ее:
 const enableValidation = (config) => {
   const formList = Array.from(document.forms);// массив из всех форм документа
@@ -71,14 +80,6 @@ const enableValidation = (config) => {
     setEventListeners(formElement, config);
   });
 };
-
-// Сброс показа всех ошибок валидации
-const resetValidation = (formElement, config) => {
-  const inputList = Array.from(formElement.querySelectorAll(config.inputSelector));
-  inputList.forEach((inputElement) => {
-    hideInputError(formElement, inputElement, config);
-  })
-}
 
 const config = {
   formSelector: '.popup__form',
