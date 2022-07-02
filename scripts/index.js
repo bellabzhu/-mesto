@@ -1,3 +1,6 @@
+import { Card } from './card.js';
+//import { FormValidator } from './validate.js';
+
 const initialCards = [
     {
       name: 'Архыз',
@@ -25,8 +28,10 @@ const initialCards = [
     }
   ];
 
-const cardTemplate = document.querySelector('.card-template').content;// шаблон карточки
+
 const cardList = document.querySelector('.posts__list');// куда вставляем контент
+const templateSelector = '.card-template';
+
 // Попапы:
 const popups = document.querySelectorAll('.popup')
 const popupName = document.querySelector('.popup_type_edit-name');
@@ -44,8 +49,7 @@ const cardLinkInput = formElementCard.elements.placeLinkInput;//поле вво�
 const profile = document.querySelector('.profile');
 const profileName = profile.querySelector('.profile__name');
 const profileJob = profile.querySelector('.profile__job');
-const imageZoomed = popupImg.querySelector('.popup__image-zoomed');
-const captionZoomed = popupImg.querySelector('.popup__zoom-caption');
+
 // Кнопки, кол-во не изменяется:
 const editButton = profile.querySelector('.profile__button-edit');
 const addButton = profile.querySelector('.button-add');
@@ -53,28 +57,10 @@ const addButton = profile.querySelector('.button-add');
 // Функция рендерит карточки из массива:
 function renderList(data) {
   data.forEach(function (item) {
-    const newCard = createCard(item.name, item.link);
-    renderCard(newCard);
+    const newCard = new Card (templateSelector, item.name, item.link)
+    newCard.renderCard(cardList);
   });
-};
-
-// Функция создает карточку c по шаблону, наполняет ее данными:
-function createCard(name, link) {
-  const listElement = cardTemplate.cloneNode(true);// элемент карточки пустой
-  const cardName = listElement.querySelector('.card__title');//title карточки в html
-  const cardImage = listElement.querySelector('.card__image');//картинку в html
-  // наполняем карточку данными:
-  cardName.textContent = name;
-  cardImage.src = link;
-  cardImage.alt = name;
-  subscribeToEvents(listElement);
-  return listElement;// возвращает карточку со всеми данными
-};
-
-// Функция вставляет карточку в разметку:
-function renderCard(listElement) {
-  cardList.prepend(listElement);
-};
+  };
 
 // Рендерим дефолтные 6 карточек:
 renderList(initialCards);
@@ -99,30 +85,11 @@ function openPopupEditName () {
   openPopup(popupName);
 };
 
-// Функция открытие попапа увеличенной картинки
-function openPopupImg (evt) {
-  // находим данные из поста, которые передаем в попап:
-  imageZoomed.src = evt.target.src;
-  imageZoomed.alt = evt.target.alt;
-  captionZoomed.textContent = evt.target.alt;
-  openPopup(popupImg);
-};
-
 // Функция открытия попапа добавление карточки
 function openPopupCard () {
   formElementCard.reset();
-  resetValidation(formElementCard, config);
+  //resetValidation(formElementCard, config);
   openPopup(popupCard);
-};
-
-// Функция навешивает слушателей на элементы/кнопки внутри карточки:
-function subscribeToEvents(listElement) {
-  const likeButton = listElement.querySelector('.button-like');
-  likeButton.addEventListener('click', toggleLike);
-  const deleteButton = listElement.querySelector('.button-delete');
-  deleteButton.addEventListener('click', deleteCard);
-  const image = listElement.querySelector('.card__image');
-  image.addEventListener('click', openPopupImg);
 };
 
 // Обработчик отправки формы редактирования имени
@@ -133,24 +100,25 @@ function handleFormNameSubmit (evt) {
   closePopup(popupName);
 };
 
+// // Функция открытие попапа увеличенной картинки
+// function openPopupImg (evt) {
+//   // находим данные из поста, которые передаем в попап:
+//   imageZoomed.src = evt.target.src;
+//   imageZoomed.alt = evt.target.alt;
+//   captionZoomed.textContent = evt.target.alt;
+//   openPopup(popupImg);
+//   };
+
+//   const image = listElement.querySelector('.card__image');
+//   image.addEventListener('click', openPopupImg);
+
 // Обработчик отправки формы добавления карточки:
 function handleFormCardSubmit (evt) {
   evt.preventDefault();
-  const newCard = createCard(cardNameInput.value, cardLinkInput.value);
-  renderCard(newCard);
+  const newCard = new Card (templateSelector, cardNameInput.value, cardLinkInput.value)
+  newCard.renderCard(cardList);
   closePopup(popupCard);
-};
-
-// Функция удаление карточки:
-function deleteCard (evt) {
-  const selectedCard = evt.target.closest('.card');
-  selectedCard.remove();
-};
-
-// Функция поставить/убрать лайк:
-function toggleLike(evt) {
-  evt.target.classList.toggle('button-like_pressed');
-};
+  };
 
 // Cлушатели:
 formElementName.addEventListener('submit', handleFormNameSubmit);// Слушатель: редактирование имени
