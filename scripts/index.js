@@ -31,12 +31,11 @@ const initialCards = [
 
 const cardList = document.querySelector('.posts__list');// куда вставляем контент
 const templateSelector = '.card-template';
-
 // Попапы:
 const popups = document.querySelectorAll('.popup')
 const popupName = document.querySelector('.popup_type_edit-name');
 const popupCard = document.querySelector('.popup_type_add-card');
-const popupImg = document.querySelector('.popup_type_image-zoomed');
+//const popupImg = document.querySelector('.popup_type_image-zoomed');
 // Формы для event слушателя:
 const formElementName = popupName.querySelector('.popup__form_type_editname'); 
 const formElementCard = popupCard.querySelector('.popup__form_type_addcard');
@@ -54,13 +53,25 @@ const profileJob = profile.querySelector('.profile__job');
 const editButton = profile.querySelector('.profile__button-edit');
 const addButton = profile.querySelector('.button-add');
 
+const cardSelectors = {
+  template: '.card-template',
+  card: '.card',
+  title: '.card__title',
+  image: '.card__image',
+  likeButton: '.button-like',
+  likeButtonPressed: 'button-like_pressed',
+  delButton: '.button-delete'
+}
+
+
 // Функция рендерит карточки из массива:
 function renderList(data) {
   data.forEach(function (item) {
-    const newCard = new Card (templateSelector, item.name, item.link)
+    const newCard = new Card (cardSelectors, item.name, item.link)
     newCard.renderCard(cardList);
   });
   };
+
 
 // Рендерим дефолтные 6 карточек:
 renderList(initialCards);
@@ -99,6 +110,9 @@ function handleFormNameSubmit (evt) {
   profileJob.textContent = jobInput.value;
   closePopup(popupName);
 };
+
+
+
 
 // // Функция открытие попапа увеличенной картинки
 // function openPopupImg (evt) {
