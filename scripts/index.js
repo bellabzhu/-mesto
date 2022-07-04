@@ -1,5 +1,5 @@
 import { Card } from './card.js';
-//import { FormValidator } from './validate.js';
+import { FormValidator } from './formValidator.js';
 
 const initialCards = [
     {
@@ -28,6 +28,23 @@ const initialCards = [
     }
   ];
 
+const cardSelectors = {
+  template: '.card-template',
+  card: '.card',
+  title: '.card__title',
+  image: '.card__image',
+  likeButton: '.button-like',
+  likeButtonPressed: 'button-like_pressed',
+  delButton: '.button-delete'
+}
+
+const formSelectors = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.button-submit',
+  inactiveButtonClass: 'button-submit_invalid',
+  inputErrorClass: 'popup__input_type_error',
+};
 
 const cardList = document.querySelector('.posts__list');// куда вставляем контент
 const templateSelector = '.card-template';
@@ -53,16 +70,11 @@ const profileJob = profile.querySelector('.profile__job');
 const editButton = profile.querySelector('.profile__button-edit');
 const addButton = profile.querySelector('.button-add');
 
-const cardSelectors = {
-  template: '.card-template',
-  card: '.card',
-  title: '.card__title',
-  image: '.card__image',
-  likeButton: '.button-like',
-  likeButtonPressed: 'button-like_pressed',
-  delButton: '.button-delete'
-}
-
+// Включаем валидацию форм для 2-х попапов:
+const cardFormVaditaion = new FormValidator (formSelectors, formElementCard);
+const nameFormValidation = new FormValidator (formSelectors, formElementName);
+cardFormVaditaion.enableValidation();
+nameFormValidation.enableValidation();
 
 // Функция рендерит карточки из массива:
 function renderList(data) {
@@ -71,7 +83,6 @@ function renderList(data) {
     newCard.renderCard(cardList);
   });
   };
-
 
 // Рендерим дефолтные 6 карточек:
 renderList(initialCards);
@@ -92,14 +103,13 @@ function closePopup(popup) {
 function openPopupEditName () {
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
-  resetValidation(formElementName, config);
+  nameFormValidation._resetValidation();
   openPopup(popupName);
 };
 
 // Функция открытия попапа добавление карточки
 function openPopupCard () {
   formElementCard.reset();
-  //resetValidation(formElementCard, config);
   openPopup(popupCard);
 };
 
@@ -110,8 +120,6 @@ function handleFormNameSubmit (evt) {
   profileJob.textContent = jobInput.value;
   closePopup(popupName);
 };
-
-
 
 
 // // Функция открытие попапа увеличенной картинки
@@ -129,7 +137,7 @@ function handleFormNameSubmit (evt) {
 // Обработчик отправки формы добавления карточки:
 function handleFormCardSubmit (evt) {
   evt.preventDefault();
-  const newCard = new Card (templateSelector, cardNameInput.value, cardLinkInput.value)
+  const newCard = new Card (cardSelectors, cardNameInput.value, cardLinkInput.value)
   newCard.renderCard(cardList);
   closePopup(popupCard);
   };
