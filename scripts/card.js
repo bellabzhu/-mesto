@@ -1,8 +1,9 @@
 export class Card {
-  constructor (selectors, name, link) {
-    this.name = name;
-    this.link = link;
+  constructor (selectors, name, link, openPopupImg) {
+    this._name = name;
+    this._link = link;
     this._selectors = selectors;
+    this._openPopupImg = openPopupImg;
   }
 
   _getTemplate () {
@@ -26,7 +27,11 @@ export class Card {
     this._delButton = this._element.querySelector(this._selectors.delButton);
     this._delButton.addEventListener('click', this._delCard.bind(this));
     this._likeButton.addEventListener('click', this._likeCard.bind(this));
-    //this._image.addEventListener('click', this._openImg.bind(this));
+    this._image.addEventListener('click', this._handleImgZoom.bind(this));
+  }
+
+  _handleImgZoom () {
+    this._openPopupImg(this._name, this._link)
   }
 
   _likeCard () {
@@ -37,13 +42,8 @@ export class Card {
     this._element.remove();
   }
 
-  _openImg () {
-    this._openPopupImg
-    console.log('картинка')
-  }
-
   renderCard (where) {
-    this._createCard(this.name, this.link);
+    this._createCard(this._name, this._link);
     where.prepend(this._element);
   }
 }

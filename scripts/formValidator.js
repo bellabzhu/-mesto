@@ -6,7 +6,7 @@ export class FormValidator {
     this._inputList = Array.from(this._element.querySelectorAll(this._selectors.inputSelector));
   }
 
-  // Функция показать ошибку при вводе
+  // Показать ошибку при вводе
   _showInputError (inputElement, errorMessage) {
     const errorElement = this._element.querySelector(`${this._selectors.inputSelector}-${inputElement.id}-error`);// находим span ошибки
     inputElement.classList.add(this._selectors.inputErrorClass);
@@ -14,7 +14,7 @@ export class FormValidator {
     errorElement.style.opacity = 1;// делаем span видимым
   }
 
-  // Функция убрать ошибку при вводе
+  // Убрать ошибку при вводе
   _hideInputError (inputElement) {
     const errorElement = this._element.querySelector(`${this._selectors.inputSelector}-${inputElement.id}-error`);// находим span ошибки
     inputElement.classList.remove(this._selectors.inputErrorClass);// убираем красную рамку инпуту
@@ -22,7 +22,7 @@ export class FormValidator {
     errorElement.textContent = '';// очищаем текст span ошибки 
   }
 
-  // Функция - если невалидно, вызываем показ ошибки, если валидно, убираем ее
+  // Если невалидно - вызываем показ ошибки, если валидно - убираем ее
   _checkInputValidity (inputElement) {
     if (!inputElement.validity.valid) {
       this._showInputError(inputElement, inputElement.validationMessage);
@@ -31,12 +31,12 @@ export class FormValidator {
     }
   }
 
-  // Метод проверяет валидна ли форма (все инпуты в ней). Возвращает тру или фолс
+  // Проверяет валидна ли форма (все инпуты в ней). Возвращает тру или фолс
   _isFormValid () {
     return this._element.checkValidity();
   }
 
-  // Метод меняет состояние кнопки submit
+  // Меняет состояние кнопки submit
   _toggleButtonState () {
     if (!this._isFormValid()) {
       this._disableSubmitButton ();
@@ -45,13 +45,13 @@ export class FormValidator {
     }
   }
 
-  //Метод делает кнопку submit активной:
+  // Делает кнопку submit активной:
   _enableSubmitButton () {
     this._buttonSubmit.classList.remove(this._selectors.inactiveButtonClass);
     this._buttonSubmit.removeAttribute('disabled', true);
   }
 
-  // Метод делает кнопку submit неактивной
+  // Делает кнопку submit неактивной
   _disableSubmitButton () {
     this._buttonSubmit.classList.add(this._selectors.inactiveButtonClass);
     this._buttonSubmit.setAttribute('disabled', true);
@@ -76,7 +76,7 @@ export class FormValidator {
     });
   }
 
-//Публичный метод, который включает валидацию формы
+// Публичный метод, который включает валидацию формы
   enableValidation () {
     this._setListeners();
   }

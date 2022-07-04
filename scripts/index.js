@@ -47,12 +47,11 @@ const formSelectors = {
 };
 
 const cardList = document.querySelector('.posts__list');// куда вставляем контент
-const templateSelector = '.card-template';
 // Попапы:
 const popups = document.querySelectorAll('.popup')
 const popupName = document.querySelector('.popup_type_edit-name');
 const popupCard = document.querySelector('.popup_type_add-card');
-//const popupImg = document.querySelector('.popup_type_image-zoomed');
+const popupImg = document.querySelector('.popup_type_image-zoomed');
 // Формы для event слушателя:
 const formElementName = popupName.querySelector('.popup__form_type_editname'); 
 const formElementCard = popupCard.querySelector('.popup__form_type_addcard');
@@ -65,6 +64,8 @@ const cardLinkInput = formElementCard.elements.placeLinkInput;//поле вво�
 const profile = document.querySelector('.profile');
 const profileName = profile.querySelector('.profile__name');
 const profileJob = profile.querySelector('.profile__job');
+const imageZoomed = popupImg.querySelector('.popup__image-zoomed');
+const captionZoomed = popupImg.querySelector('.popup__zoom-caption');
 
 // Кнопки, кол-во не изменяется:
 const editButton = profile.querySelector('.profile__button-edit');
@@ -76,10 +77,19 @@ const nameFormValidation = new FormValidator (formSelectors, formElementName);
 cardFormVaditaion.enableValidation();
 nameFormValidation.enableValidation();
 
+// Функция открытие попапа увеличенной картинки
+const openPopupImg = (name, link) => {
+  // находим данные из поста, которые передаем в попап:
+  imageZoomed.src = link;
+  imageZoomed.alt = name;
+  captionZoomed.textContent = name;
+  openPopup(popupImg);
+  };
+
 // Функция рендерит карточки из массива:
 function renderList(data) {
   data.forEach(function (item) {
-    const newCard = new Card (cardSelectors, item.name, item.link)
+    const newCard = new Card (cardSelectors, item.name, item.link, openPopupImg)
     newCard.renderCard(cardList);
   });
   };
@@ -113,7 +123,7 @@ function openPopupCard () {
   openPopup(popupCard);
 };
 
-// Обработчик отправки формы редактирования имени
+// Обработчик формы редактирования имени
 function handleFormNameSubmit (evt) {
   evt.preventDefault();
   profileName.textContent = nameInput.value;
@@ -121,32 +131,13 @@ function handleFormNameSubmit (evt) {
   closePopup(popupName);
 };
 
-
-// // Функция открытие попапа увеличенной картинки
-// function openPopupImg (evt) {
-//   // находим данные из поста, которые передаем в попап:
-//   imageZoomed.src = evt.target.src;
-//   imageZoomed.alt = evt.target.alt;
-//   captionZoomed.textContent = evt.target.alt;
-//   openPopup(popupImg);
-//   };
-
-//   const image = listElement.querySelector('.card__image');
-//   image.addEventListener('click', openPopupImg);
-
-// Обработчик отправки формы добавления карточки:
+// Обработчик формы добавления карточки:
 function handleFormCardSubmit (evt) {
   evt.preventDefault();
-  const newCard = new Card (cardSelectors, cardNameInput.value, cardLinkInput.value)
+  const newCard = new Card (cardSelectors, cardNameInput.value, cardLinkInput.value, openPopupImg)
   newCard.renderCard(cardList);
   closePopup(popupCard);
   };
-
-// Cлушатели:
-formElementName.addEventListener('submit', handleFormNameSubmit);// Слушатель: редактирование имени
-formElementCard.addEventListener('submit', handleFormCardSubmit);// Слушатель: добавление карточки
-editButton.addEventListener('click', openPopupEditName);// Слушатель: кнопка редактирования профиля
-addButton.addEventListener('click', openPopupCard);// Слушатель: кнопка с плюсом в профиле
 
 // Функция закрывает попап по нажатию на escape
 function handleEscapePopup (evt) {
@@ -155,6 +146,13 @@ function handleEscapePopup (evt) {
     closePopup(openedPopup);
   }
 };
+
+// Cлушатели форм:
+formElementName.addEventListener('submit', handleFormNameSubmit);
+formElementCard.addEventListener('submit', handleFormCardSubmit);
+//Слушатели кнопок для открытия попапов:
+editButton.addEventListener('click', openPopupEditName);
+addButton.addEventListener('click', openPopupCard);
 
 popups.forEach((popup) => {
   // Слушатель закрытие попапа по крестику или клике вне попапа
