@@ -58,7 +58,7 @@ export class FormValidator {
   }
 
   // Сброс показа всех ошибок валидации
-  _resetValidation () {
+  resetValidation () {
     this._disableSubmitButton();
     this._inputList.forEach((inputElement) => {
       this._hideInputError(inputElement);

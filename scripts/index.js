@@ -33,9 +33,9 @@ const cardSelectors = {
   card: '.card',
   title: '.card__title',
   image: '.card__image',
-  likeButton: '.button-like',
-  likeButtonPressed: 'button-like_pressed',
-  delButton: '.button-delete'
+  buttonLike: '.button-like',
+  buttonLikePressed: 'button-like_pressed',
+  buttonDel: '.button-delete'
 }
 
 const formSelectors = {
@@ -46,7 +46,7 @@ const formSelectors = {
   inputErrorClass: 'popup__input_type_error',
 };
 
-const cardList = document.querySelector('.posts__list');// куда вставляем контент
+const cardsContainer = document.querySelector('.posts__list');// куда вставляем контент
 // Попапы:
 const popups = document.querySelectorAll('.popup')
 const popupName = document.querySelector('.popup_type_edit-name');
@@ -68,8 +68,8 @@ const imageZoomed = popupImg.querySelector('.popup__image-zoomed');
 const captionZoomed = popupImg.querySelector('.popup__zoom-caption');
 
 // Кнопки, кол-во не изменяется:
-const editButton = profile.querySelector('.profile__button-edit');
-const addButton = profile.querySelector('.button-add');
+const buttonEdit = profile.querySelector('.profile__button-edit');
+const buttonAdd = profile.querySelector('.button-add');
 
 // Включаем валидацию форм для 2-х попапов:
 const cardFormVaditaion = new FormValidator (formSelectors, formElementCard);
@@ -89,8 +89,8 @@ const openPopupImg = (name, link) => {
 // Функция рендерит карточки из массива:
 function renderList(data) {
   data.forEach(function (item) {
-    const newCard = new Card (cardSelectors, item.name, item.link, openPopupImg)
-    newCard.renderCard(cardList);
+    const newCard = new Card (cardSelectors, item.name, item.link, openPopupImg);
+    cardsContainer.prepend(newCard.createCard(item.name, item.link));
   });
   };
 
@@ -113,13 +113,14 @@ function closePopup(popup) {
 function openPopupEditName () {
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
-  nameFormValidation._resetValidation();
+  nameFormValidation.resetValidation();
   openPopup(popupName);
 };
 
 // Функция открытия попапа добавление карточки
 function openPopupCard () {
   formElementCard.reset();
+  cardFormVaditaion._disableSubmitButton();
   openPopup(popupCard);
 };
 
@@ -134,8 +135,8 @@ function handleFormNameSubmit (evt) {
 // Обработчик формы добавления карточки:
 function handleFormCardSubmit (evt) {
   evt.preventDefault();
-  const newCard = new Card (cardSelectors, cardNameInput.value, cardLinkInput.value, openPopupImg)
-  newCard.renderCard(cardList);
+  const newCard = new Card (cardSelectors, cardNameInput.value, cardLinkInput.value, openPopupImg);
+  cardsContainer.prepend(newCard.createCard(cardNameInput.value, cardLinkInput.value));
   closePopup(popupCard);
   };
 
@@ -151,13 +152,13 @@ function handleEscapePopup (evt) {
 formElementName.addEventListener('submit', handleFormNameSubmit);
 formElementCard.addEventListener('submit', handleFormCardSubmit);
 //Слушатели кнопок для открытия попапов:
-editButton.addEventListener('click', openPopupEditName);
-addButton.addEventListener('click', openPopupCard);
+buttonEdit.addEventListener('click', openPopupEditName);
+buttonAdd.addEventListener('click', openPopupCard);
 
 popups.forEach((popup) => {
   // Слушатель закрытие попапа по крестику или клике вне попапа
   popup.addEventListener('click', (evt) => {
-    const popupArea = popup.querySelector('.popup__container-area')
+    const popupArea = popup.querySelector('.popup__container-area');
     if (evt.target.classList.contains('button-close') || !popupArea.contains(evt.target)) {
       closePopup(popup);
     }
