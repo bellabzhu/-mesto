@@ -14,7 +14,7 @@ export class FormValidator {
     errorElement.style.opacity = 1;// делаем span видимым
   }
 
-  // Убрать ошибку при вводе
+  // Убрать ошибку при вводе 
   _hideInputError (inputElement) {
     const errorElement = this._element.querySelector(`${this._selectors.inputSelector}-${inputElement.id}-error`);// находим span ошибки
     inputElement.classList.remove(this._selectors.inputErrorClass);// убираем красную рамку инпуту
