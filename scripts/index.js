@@ -66,7 +66,6 @@ const profileName = profile.querySelector('.profile__name');
 const profileJob = profile.querySelector('.profile__job');
 const imageZoomed = popupImg.querySelector('.popup__image-zoomed');
 const captionZoomed = popupImg.querySelector('.popup__zoom-caption');
-
 // Кнопки, кол-во не изменяется:
 const buttonEdit = profile.querySelector('.profile__button-edit');
 const buttonAdd = profile.querySelector('.button-add');
@@ -77,9 +76,14 @@ const nameFormValidation = new FormValidator (formSelectors, formElementName);
 cardFormVaditaion.enableValidation();
 nameFormValidation.enableValidation();
 
+function createCard(item) {
+  const newCard = new Card (cardSelectors, item.name, item.link, openPopupImg);
+  return newCard.createCard();
+}
+
 // Функция открытие попапа увеличенной картинки
 const openPopupImg = (name, link) => {
-  // находим данные из поста, которые передаем в попап:
+  // находим данные, которые передаем в попап:
   imageZoomed.src = link;
   imageZoomed.alt = name;
   captionZoomed.textContent = name;
@@ -88,11 +92,8 @@ const openPopupImg = (name, link) => {
 
 // Функция рендерит карточки из массива:
 function renderList(data) {
-  data.forEach(function (item) {
-    const newCard = new Card (cardSelectors, item.name, item.link, openPopupImg);
-    cardsContainer.prepend(newCard.createCard(item.name, item.link));
-  });
-  };
+  data.forEach(item => cardsContainer.prepend(createCard(item)));
+}
 
 // Рендерим дефолтные 6 карточек:
 renderList(initialCards);
@@ -120,7 +121,7 @@ function openPopupEditName () {
 // Функция открытия попапа добавление карточки
 function openPopupCard () {
   formElementCard.reset();
-  cardFormVaditaion._disableSubmitButton();
+  cardFormVaditaion.resetValidation()
   openPopup(popupCard);
 };
 
@@ -135,8 +136,8 @@ function handleFormNameSubmit (evt) {
 // Обработчик формы добавления карточки:
 function handleFormCardSubmit (evt) {
   evt.preventDefault();
-  const newCard = new Card (cardSelectors, cardNameInput.value, cardLinkInput.value, openPopupImg);
-  cardsContainer.prepend(newCard.createCard(cardNameInput.value, cardLinkInput.value));
+  const data = {name: cardNameInput.value, link: cardLinkInput.value}
+  cardsContainer.prepend(createCard(data));
   closePopup(popupCard);
   };
 

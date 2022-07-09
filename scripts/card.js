@@ -11,13 +11,13 @@ export class Card {
     return this._element;
   }
 
-  createCard(name, link) {
+  createCard() {
     this._getTemplate();
-    this._element.querySelector(this._selectors.title).textContent = name;
+    this._element.querySelector(this._selectors.title).textContent = this._name;
     this._image = this._element.querySelector(this._selectors.image);
-    this._image.src = link;
-    this._image.link = link;
-    this._image.alt = name;
+    this._image.src = this._link;
+    this._image.link = this._link;
+    this._image.alt = this._name;
     this._setListeners();
     return this._element;
   }
@@ -25,9 +25,9 @@ export class Card {
   _setListeners () {
     this._buttonLike = this._element.querySelector(this._selectors.buttonLike);
     this._buttonDel = this._element.querySelector(this._selectors.buttonDel);
-    this._buttonDel.addEventListener('click', this._delCard.bind(this));
-    this._buttonLike.addEventListener('click', this._likeCard.bind(this));
-    this._image.addEventListener('click', this._handleImgZoom.bind(this));
+    this._buttonDel.addEventListener('click', () => this._delCard());
+    this._buttonLike.addEventListener('click', () => this._likeCard());
+    this._image.addEventListener('click', () => this._handleImgZoom());
   }
 
   _handleImgZoom () {
@@ -40,5 +40,6 @@ export class Card {
 
   _delCard () {
     this._element.remove();
+    this._element = null;
   }
 }
